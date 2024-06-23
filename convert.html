@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+        function convertCurrency() {
+            const exchangeRates = {
+                USD: { GBP: 0.49246, CAD: 1.01941, EUR: 1.41544, AUD: 0.88297 },
+                GBP: { USD: 2.03032, CAD: 0.50221, EUR: 0.69714, AUD: 0.43497 },
+                CAD: { USD: 0.98054, GBP: 1.99169, EUR: 1.38814, AUD: 0.86613 },
+                EUR: { USD: 0.70641, GBP: 1.43448, CAD: 0.72037, AUD: 0.62382 },
+                AUD: { USD: 1.13262, GBP: 2.29964, CAD: 1.15498, EUR: 1.60329 }
+            };
+
+            const inputCurrency = document.getElementById('from-currency').value.toUpperCase();
+            const inputValue = parseFloat(document.getElementById('amount').value);
+
+            if (isNaN(inputValue)) {
+                document.getElementById('usd').value = '';
+                document.getElementById('gbp').value = '';
+                document.getElementById('cad').value = '';
+                document.getElementById('eur').value = '';
+                document.getElementById('aud').value = '';
+                return;
+            }
+
+            const usdValue = (inputCurrency === 'USD') ? inputValue : inputValue / exchangeRates[inputCurrency]['USD'];
+
+            document.getElementById('usd').value = (inputCurrency === 'USD') ? inputValue.toFixed(5) : usdValue.toFixed(5);
+            document.getElementById('gbp').value = (usdValue * exchangeRates['USD']['GBP']).toFixed(5);
+            document.getElementById('cad').value = (usdValue * exchangeRates['USD']['CAD']).toFixed(5);
+            document.getElementById('eur').value = (usdValue * exchangeRates['USD']['EUR']).toFixed(5);
+            document.getElementById('aud').value = (usdValue * exchangeRates['USD']['AUD']).toFixed(5);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="heading">Currency Converter</h2>
+        <div class="main">
+            <div class="options">
+                <label for="from-currency">From: </label>
+                <select id="from-currency">
+                    <option value="usd">USD</option>
+                    <option value="gbp">GBP</option>
+                    <option value="cad">CAD</option>
+                    <option value="eur">EUR</option>
+                    <option value="aud">AUD</option>
+                </select>
+            </div>
+            <div class="options">
+                <label for="amount">Amount: </label>
+                <input type="text" id="amount">
+            </div>
+            <button class="result-button" onclick="convertCurrency()">Convert</button>
+            <div class="result-container">
+                <div class="options">
+                    <label for="usd">USD: </label>
+                    <input type="text" id="usd" class="result" readonly>
+                </div>
+                <div class="options">
+                    <label for="gbp">GBP: </label>
+                    <input type="text" id="gbp" class="result" readonly>
+                </div>
+                <div class="options">
+                    <label for="cad">CAD: </label>
+                    <input type="text" id="cad" class="result" readonly>
+                </div>
+                <div class="options">
+                    <label for="eur">EUR: </label>
+                    <input type="text" id="eur" class="result" readonly>
+                </div>
+                <div class="options">
+                    <label for="aud">AUD: </label>
+                    <input type="text" id="aud" class="result" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
